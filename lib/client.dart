@@ -6,7 +6,15 @@ import 'package:prov/model.dart';
 
 Future<List<CompanyModel>> fetchCompanies(page) async {
   var uri = Uri.https('ymarket.herokuapp.com', '/company/',
-      {'page': '${page + 1}', 'limit': '10'});
+      {'page': '${page + 1}', 'limit': '20'});
+
+  var response = await http.get(uri);
+  return compute(_parseJson, response.body);
+}
+
+Future<List<CompanyModel>> searchCompanies(query) async {
+  var uri =
+      Uri.https('ymarket.herokuapp.com', '/company/', {'name': '%$query%'});
 
   var response = await http.get(uri);
   return compute(_parseJson, response.body);
