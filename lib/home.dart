@@ -72,17 +72,8 @@ class HomeScreen extends StatelessWidget {
       leading: buildLeading(company),
       title: Text(company.name),
       subtitle: Text(company.addressOrCity),
-      trailing: buildTrailing(company),
       onTap: () => Navigator.push(context,
           MaterialPageRoute(builder: (context) => DetailScreen(company))),
-    );
-  }
-
-  static Icon buildTrailing(CompanyModel company) {
-    return Icon(
-      Icons.verified_user,
-      color: (company.image == null) ? Colors.black : Colors.blue,
-      size: 15.0,
     );
   }
 }

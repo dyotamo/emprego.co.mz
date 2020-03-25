@@ -47,6 +47,14 @@ class DetailScreen extends StatelessWidget {
       );
 
   List<Widget> _buildDetailitems(BuildContext context) => [
+        if (company.image != null)
+          ListTile(
+            leading: Icon(
+              Icons.verified_user,
+              color: Colors.blue,
+            ),
+            title: Text('Empresa verificada'),
+          ),
         ListTile(
           leading: Icon(Icons.category),
           title: Text(company.category),

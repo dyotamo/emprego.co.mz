@@ -46,7 +46,6 @@ class CompanySearch extends SearchDelegate<CompanyModel> {
                     leading: HomeScreen.buildLeading(company),
                     title: Text(company.name),
                     subtitle: Text(company.addressOrCity),
-                    trailing: HomeScreen.buildTrailing(company),
                     onTap: () => close(context, company),
                   );
                 });
