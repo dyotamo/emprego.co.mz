@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prov/home.dart';
 import 'package:prov/model.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class DetailScreen extends StatelessWidget {
   final CompanyModel company;
@@ -19,14 +20,7 @@ class DetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            if (company.image != null)
-              Center(
-                child: Image.network(
-                  company.image,
-                  width: 150.0,
-                  height: 150.0,
-                ),
-              ),
+            if (company.image != null) _buildThumbnail(),
             Expanded(
               child: ListView(
                 children: _buildDetailitems(context),
@@ -35,12 +29,22 @@ class DetailScreen extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.call),
-      ),
+      floatingActionButton: (company.phone != null)
+          ? FloatingActionButton(
+              onPressed: _call,
+              child: Icon(Icons.call),
+            )
+          : null,
     );
   }
+
+  Widget _buildThumbnail() => Center(
+        child: Image.network(
+          company.image,
+          width: 150.0,
+          height: 150.0,
+        ),
+      );
 
   List<Widget> _buildDetailitems(BuildContext context) => [
         ListTile(
@@ -68,4 +72,9 @@ class DetailScreen extends StatelessWidget {
             title: Text(company.description),
           ),
       ];
+
+  Future _call() async {
+    var url = 'tel:${company.phone}';
+    if (await launcher.canLaunch(url)) launcher.launch(url);
+  }
 }
