@@ -69,12 +69,12 @@ class DetailScreen extends StatelessWidget {
             leading: Icon(Icons.location_city),
             title: Text(company.city),
           ),
-        if (company.address != null)
+        if (company.phone != null)
           ListTile(
             leading: Icon(Icons.phone),
             title: Text(company.phone),
           ),
-        if (company.phone != null)
+        if (company.description != null)
           ListTile(
             leading: Icon(Icons.description),
             title: Text(company.description),
