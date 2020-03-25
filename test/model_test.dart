@@ -36,4 +36,14 @@ void main() {
     var company = CompanyModel.fromJson({});
     expect('', company.addressOrCity);
   });
+
+  test('Must return category', () {
+    var company = CompanyModel.fromJson({'category': 'Technology'});
+    expect('Technology', company.category);
+  });
+
+  test('Must other category', () {
+    var company = CompanyModel.fromJson({});
+    expect('Outros', company.category);
+  });
 }

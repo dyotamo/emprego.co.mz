@@ -18,13 +18,10 @@ class HomeScreen extends StatelessWidget {
           actions: buildActions(context),
         ),
         body: PagewiseListView(
-          showRetry: false,
-          padding: EdgeInsets.all(8.0),
           pageSize: 20,
           pageFuture: (page) => fetchCompanies(page),
           itemBuilder: (_, company, __) => _buildTitle(context, company),
-          loadingBuilder: (_) => _buildLoadingData(),
-          errorBuilder: (_, error) => buildErrorView(error.toString()),
+          loadingBuilder: (_) => LinearProgressIndicator(),
         ));
   }
 
@@ -41,24 +38,6 @@ class HomeScreen extends StatelessWidget {
         },
       )
     ];
-  }
-
-  Widget _buildLoadingData() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'Carregando empresas',
-            style: TextStyle(fontSize: 12.0),
-          ),
-          SizedBox(width: 10.0),
-          Container(
-              width: 15.0, height: 15.0, child: CircularProgressIndicator()),
-        ],
-      ),
-    );
   }
 
   static Widget buildErrorView(Object error) {

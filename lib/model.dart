@@ -11,7 +11,7 @@ class CompanyModel {
     city = json['place'];
     address = _parseAddress(json['address_phone']);
     phone = _parsePhone(json['address_phone']);
-    category = json['category'];
+    category = (json['category'] != null) ? json['category'] : 'Outros';
     description = json['description'];
     image = json['image'];
   }
