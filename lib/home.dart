@@ -6,10 +6,6 @@ import 'package:prov/model.dart';
 import 'package:prov/search.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
