@@ -1,11 +1,12 @@
 final phoneRegex = RegExp(r'\(?\+[0-9]+\)?([0-9]| )*');
 
 class CompanyModel {
-  String name, city, address, phone, category, description, image;
+  String id, name, city, address, phone, category, description, image;
   String get addressOrCity =>
       (address != null) ? address : ((city != null) ? city : '');
 
   CompanyModel.fromJson(Map<String, dynamic> json) {
+    name = json['id'].toString();
     name = json['name'];
     city = json['place'];
     address = _parseAddress(json['address_phone']);
@@ -31,4 +32,7 @@ class CompanyModel {
         ? addressPhone.substring(match.start, match.end)
         : null;
   }
+
+  @override
+  String toString() => this.name;
 }

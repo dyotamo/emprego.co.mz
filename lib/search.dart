@@ -3,32 +3,20 @@ import 'package:prov/client.dart';
 import 'package:prov/home.dart';
 import 'package:prov/model.dart';
 
-class CompanySearch extends SearchDelegate {
-  CompanySearch()
-      : super(
-            searchFieldLabel: 'Pesquise aqui...',
-            textInputAction: TextInputAction.none);
+class CompanySearch extends SearchDelegate<CompanyModel> {
+  CompanySearch() : super(searchFieldLabel: 'Pesquise aqui...');
 
   @override
-  List<Widget> buildActions(BuildContext context) {
-    return [];
-  }
+  List<Widget> buildActions(BuildContext context) => [];
 
   @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () => Navigator.pop(context),
-    );
-  }
+  Widget buildLeading(BuildContext context) => IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () => Navigator.pop(context),
+      );
 
   @override
   Widget buildResults(BuildContext context) {
-    return SizedBox.shrink();
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
     if (query.isEmpty)
       return Center(
         child: Text('Ex: Escolas, Farmácias, Hospitais...'),
@@ -53,7 +41,14 @@ class CompanySearch extends SearchDelegate {
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
                   var company = snapshot.data[index];
-                  return HomeScreen.buildTitle(company);
+                  return ListTile(
+                    key: Key(company.id),
+                    leading: HomeScreen.buildLeading(company),
+                    title: Text(company.name),
+                    subtitle: Text(company.addressOrCity),
+                    trailing: HomeScreen.buildTrailing(company),
+                    onTap: () => close(context, company),
+                  );
                 });
           } else if (snapshot.hasError) {
             return HomeScreen.buildErrorView(snapshot.error);
@@ -76,4 +71,9 @@ class CompanySearch extends SearchDelegate {
           );
         });
   }
+
+  @override
+  Widget buildSuggestions(BuildContext context) => Center(
+        child: Text('Ex: Escolas, Farmácias, Hospitais...'),
+      );
 }

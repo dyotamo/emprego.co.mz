@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'package:prov/client.dart';
+import 'package:prov/detail.dart';
 import 'package:prov/model.dart';
 import 'package:prov/search.dart';
 
@@ -14,25 +15,30 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('empresas.co.mz'),
-          actions: _buildActions(context),
+          actions: buildActions(context),
         ),
         body: PagewiseListView(
           showRetry: false,
           padding: EdgeInsets.all(8.0),
           pageSize: 20,
           pageFuture: (page) => fetchCompanies(page),
-          itemBuilder: (_, company, __) => buildTitle(company),
+          itemBuilder: (_, company, __) => _buildTitle(context, company),
           loadingBuilder: (_) => _buildLoadingData(),
           errorBuilder: (_, error) => buildErrorView(error.toString()),
         ));
   }
 
-  List<Widget> _buildActions(BuildContext context) {
+  static List<Widget> buildActions(BuildContext context) {
     return <Widget>[
       IconButton(
         icon: Icon(Icons.search),
-        onPressed: () =>
-            showSearch(context: context, delegate: CompanySearch()),
+        onPressed: () async {
+          var company =
+              await showSearch(context: context, delegate: CompanySearch());
+          if (company != null)
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => DetailScreen(company)));
+        },
       )
     ];
   }
@@ -71,7 +77,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  static Widget _buildLeading(CompanyModel company) {
+  static Widget buildLeading(CompanyModel company) {
     return (company.image == null)
         ? Container(
             width: 50.0,
@@ -85,16 +91,19 @@ class HomeScreen extends StatelessWidget {
           );
   }
 
-  static Widget buildTitle(CompanyModel company) {
+  Widget _buildTitle(context, CompanyModel company) {
     return ListTile(
-      leading: _buildLeading(company),
+      key: Key(company.id),
+      leading: buildLeading(company),
       title: Text(company.name),
       subtitle: Text(company.addressOrCity),
-      trailing: _buildTrailing(company),
+      trailing: buildTrailing(company),
+      onTap: () => Navigator.push(context,
+          MaterialPageRoute(builder: (context) => DetailScreen(company))),
     );
   }
 
-  static Icon _buildTrailing(CompanyModel company) {
+  static Icon buildTrailing(CompanyModel company) {
     return Icon(
       Icons.verified_user,
       color: (company.image == null) ? Colors.black : Colors.blue,
