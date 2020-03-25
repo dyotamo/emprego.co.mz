@@ -62,7 +62,10 @@ class HomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Icon(Icons.error, size: 25.0),
-          Text(error.toString()),
+          Text(
+            error.toString(),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
@@ -86,6 +89,7 @@ class HomeScreen extends StatelessWidget {
     return ListTile(
       leading: _buildLeading(company),
       title: Text(company.name),
+      subtitle: Text(company.addressOrCity),
       trailing: _buildTrailing(company),
     );
   }

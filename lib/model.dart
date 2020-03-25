@@ -1,48 +1,34 @@
-class CompanyModel {
-  String addressPhone;
-  String category;
-  String description;
-  int id;
-  String image;
-  String latitude;
-  String longitude;
-  String name;
-  String place;
+final phoneRegex = RegExp(r'\(?\+[0-9]+\)?([0-9]| )*');
 
-  CompanyModel(
-      {this.addressPhone,
-      this.category,
-      this.description,
-      this.id,
-      this.image,
-      this.latitude,
-      this.longitude,
-      this.name,
-      this.place});
+class CompanyModel {
+  String name, city, address, phone, category, description, image;
+  String get addressOrCity =>
+      (address != null) ? address : ((city != null) ? city : '');
 
   CompanyModel.fromJson(Map<String, dynamic> json) {
-    addressPhone = json['address_phone'];
+    name = json['name'];
+    city = json['place'];
+    address = _parseAddress(json['address_phone']);
+    phone = _parsePhone(json['address_phone']);
     category = json['category'];
     description = json['description'];
-    id = json['id'];
     image = json['image'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
-    name = json['name'];
-    place = json['place'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['address_phone'] = this.addressPhone;
-    data['category'] = this.category;
-    data['description'] = this.description;
-    data['id'] = this.id;
-    data['image'] = this.image;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['name'] = this.name;
-    data['place'] = this.place;
-    return data;
+  String _parseAddress(String addressPhone) {
+    if (addressPhone == null) return null;
+
+    var address = addressPhone.replaceAll(phoneRegex, '').trim();
+    return address.isEmpty ? null : address;
+  }
+
+  String _parsePhone(String addressPhone) {
+    // 3991 Avenida 24 Julho +258 86 163 9134
+    if (addressPhone == null) return null;
+
+    var match = phoneRegex.firstMatch(addressPhone);
+    return (match != null)
+        ? addressPhone.substring(match.start, match.end)
+        : null;
   }
 }
