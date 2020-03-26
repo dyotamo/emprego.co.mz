@@ -45,7 +45,7 @@ class DetailScreen extends StatelessWidget {
       width: 150.0,
       height: 150.0,
       loadingBuilder: (_, child, event) {
-        if (event != null) return child;
+        if (event == null) return child;
         return CircularProgressIndicator();
       },
     );
