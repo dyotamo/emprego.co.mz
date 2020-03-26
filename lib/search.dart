@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:prov/client.dart';
 import 'package:prov/home.dart';
 import 'package:prov/model.dart';
@@ -57,19 +58,7 @@ class CompanySearch extends SearchDelegate<CompanyModel> {
           }
 
           return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      width: 25.0,
-                      height: 25.0,
-                      child: CircularProgressIndicator()),
-                ),
-                Text('Pesquisando...')
-              ],
-            ),
+            child: SpinKitRipple(color: Theme.of(context).primaryColor),
           );
         });
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:prov/client.dart';
 import 'package:prov/detail.dart';
 import 'package:prov/model.dart';
@@ -18,6 +19,10 @@ class HomeScreen extends StatelessWidget {
           pageSize: 20,
           pageFuture: (page) => fetchCompanies(page),
           itemBuilder: (_, company, __) => _buildTitle(context, company),
+          loadingBuilder: (context) => SpinKitRipple(
+            size: 35.0,
+            color: Theme.of(context).primaryColor,
+          ),
         ),
       ));
 
