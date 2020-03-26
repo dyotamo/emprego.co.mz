@@ -114,7 +114,7 @@ class HomeScreen extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
         fontWeight: FontWeight.bold,
-        fontSize: 17.0,
+        fontSize: 15.0,
       ));
 
   Widget _buildLoading(BuildContext context) => SpinKitRipple(
