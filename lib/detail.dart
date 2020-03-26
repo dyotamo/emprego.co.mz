@@ -18,16 +18,31 @@ class DetailScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            if (company.image != null) _buildThumbnail(context),
-            Expanded(
-              child: ListView(
-                children: _buildDetailitems(context),
-              ),
-            )
-          ],
+        child: OrientationBuilder(
+          builder: (BuildContext context, Orientation orientation) =>
+              (orientation == Orientation.portrait)
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        if (company.image != null) _buildThumbnail(context),
+                        Expanded(
+                          child: ListView(
+                            children: _buildDetailitems(context),
+                          ),
+                        )
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        if (company.image != null) _buildThumbnail(context),
+                        Expanded(
+                          child: ListView(
+                            children: _buildDetailitems(context),
+                          ),
+                        )
+                      ],
+                    ),
         ),
       ),
       floatingActionButton: (company.phone != null)

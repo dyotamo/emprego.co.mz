@@ -15,12 +15,16 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 10.0),
-        child: PagewiseGridView.count(
-          crossAxisCount: 2,
-          pageSize: 20,
-          pageFuture: (page) => fetchCompanies(page),
-          itemBuilder: (_, company, __) => _buildTitle(context, company),
-          loadingBuilder: (context) => _buildLoading(context),
+        child: OrientationBuilder(
+          builder: (BuildContext context, Orientation orientation) =>
+              PagewiseGridView.count(
+            crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
+            pageSize: 20,
+            pageFuture: (page) => fetchCompanies(page),
+            itemBuilder: (_, company, __) =>
+                _buildCompanyCard(context, company),
+            loadingBuilder: (context) => _buildLoading(context),
+          ),
         ),
       ));
 
@@ -66,10 +70,7 @@ class HomeScreen extends StatelessWidget {
         width: 60.0,
         loadingBuilder: (_, child, event) {
           if (event == null) return child;
-          return SpinKitRipple(
-            size: 25.0,
-            color: Theme.of(context).primaryColor,
-          );
+          return SpinKitRipple(color: Theme.of(context).primaryColor);
         },
       );
 
@@ -87,18 +88,21 @@ class HomeScreen extends StatelessWidget {
         ),
       );
 
-  Widget _buildTitle(context, CompanyModel company) => GestureDetector(
+  Widget _buildCompanyCard(context, CompanyModel company) => GestureDetector(
         key: Key(company.id),
-        child: Card(
-          elevation: 5.0,
-          child: Column(
-            children: <Widget>[
-              buildThumnail(context, company),
-              SizedBox(height: 5.0),
-              _buildCompanyName(company),
-              SizedBox(height: 5.0),
-              _buildCompanyAddress(company)
-            ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            elevation: 5.0,
+            child: Column(
+              children: <Widget>[
+                buildThumnail(context, company),
+                SizedBox(height: 5.0),
+                _buildCompanyName(company),
+                SizedBox(height: 5.0),
+                _buildCompanyAddress(company)
+              ],
+            ),
           ),
         ),
         onTap: () => Navigator.push(context,
