@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:prov/home.dart';
 
-void main() {
-  return runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.purple),
-      home: HomeScreen(),
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp(
+        theme: ThemeData(primarySwatch: Colors.purple),
+        home: HomeScreen(),
+      );
 }

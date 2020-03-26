@@ -7,80 +7,72 @@ import 'package:prov/search.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('empresas.co.mz'),
-          actions: buildActions(context),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: PagewiseListView(
-            pageSize: 20,
-            pageFuture: (page) => fetchCompanies(page),
-            itemBuilder: (_, company, __) => _buildTitle(context, company),
-          ),
-        ));
-  }
-
-  static List<Widget> buildActions(BuildContext context) {
-    return <Widget>[
-      IconButton(
-        icon: Icon(Icons.search),
-        onPressed: () async {
-          var company =
-              await showSearch(context: context, delegate: CompanySearch());
-          if (company != null)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => DetailScreen(company)));
-        },
-      )
-    ];
-  }
-
-  static Widget buildErrorView(Object error) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Icon(Icons.error, size: 25.0),
-          Text(
-            error.toString(),
-            textAlign: TextAlign.center,
-          ),
-        ],
+  Widget build(BuildContext context) => Scaffold(
+      appBar: AppBar(
+        title: Text('empresas.co.mz'),
+        actions: buildActions(context),
       ),
-    );
-  }
-
-  static Widget buildLeading(CompanyModel company) {
-    return (company.image == null)
-        ? Container(
-            width: 50.0,
-            child: CircleAvatar(
-              child: Text(company.name[0]),
-            ),
-          )
-        : Image.network(
-            company.image,
-            width: 50.0,
-          );
-  }
-
-  Widget _buildTitle(context, CompanyModel company) {
-    return Column(
-      children: <Widget>[
-        ListTile(
-          key: Key(company.id),
-          leading: buildLeading(company),
-          title: Text(company.name),
-          subtitle: Text(company.addressOrCity),
-          onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => DetailScreen(company))),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: PagewiseListView<CompanyModel>(
+          pageSize: 20,
+          pageFuture: (page) => fetchCompanies(page),
+          itemBuilder: (_, company, __) => _buildTitle(context, company),
         ),
-        Divider()
-      ],
-    );
-  }
+      ));
+
+  static List<Widget> buildActions(BuildContext context) => <Widget>[
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () async {
+            var company =
+                await showSearch(context: context, delegate: CompanySearch());
+            if (company != null)
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DetailScreen(company)));
+          },
+        )
+      ];
+
+  static Widget buildErrorView(Object error) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Icon(Icons.error, size: 25.0),
+            Text(
+              error.toString(),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      );
+
+  static Widget buildLeading(CompanyModel company) => (company.image == null)
+      ? Container(
+          width: 50.0,
+          child: CircleAvatar(
+            child: Text(company.name[0]),
+          ),
+        )
+      : Image.network(
+          company.image,
+          width: 50.0,
+        );
+
+  Widget _buildTitle(context, CompanyModel company) => Column(
+        children: <Widget>[
+          ListTile(
+            key: Key(company.id),
+            leading: buildLeading(company),
+            title: Text(company.name),
+            subtitle: Text(company.addressOrCity),
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => DetailScreen(company))),
+          ),
+          Divider()
+        ],
+      );
 }
