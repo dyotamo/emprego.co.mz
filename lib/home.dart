@@ -13,11 +13,13 @@ class HomeScreen extends StatelessWidget {
           title: Text('empresas.co.mz'),
           actions: buildActions(context),
         ),
-        body: PagewiseListView(
-          pageSize: 20,
-          pageFuture: (page) => fetchCompanies(page),
-          itemBuilder: (_, company, __) => _buildTitle(context, company),
-          loadingBuilder: (_) => LinearProgressIndicator(),
+        body: Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: PagewiseListView(
+            pageSize: 20,
+            pageFuture: (page) => fetchCompanies(page),
+            itemBuilder: (_, company, __) => _buildTitle(context, company),
+          ),
         ));
   }
 
@@ -67,13 +69,18 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildTitle(context, CompanyModel company) {
-    return ListTile(
-      key: Key(company.id),
-      leading: buildLeading(company),
-      title: Text(company.name),
-      subtitle: Text(company.addressOrCity),
-      onTap: () => Navigator.push(context,
-          MaterialPageRoute(builder: (context) => DetailScreen(company))),
+    return Column(
+      children: <Widget>[
+        ListTile(
+          key: Key(company.id),
+          leading: buildLeading(company),
+          title: Text(company.name),
+          subtitle: Text(company.addressOrCity),
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DetailScreen(company))),
+        ),
+        Divider()
+      ],
     );
   }
 }

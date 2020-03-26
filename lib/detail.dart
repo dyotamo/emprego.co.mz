@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prov/home.dart';
+import 'package:prov/image.dart';
 import 'package:prov/model.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
@@ -16,11 +17,11 @@ class DetailScreen extends StatelessWidget {
         actions: HomeScreen.buildActions(context),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            if (company.image != null) _buildThumbnail(),
+            if (company.image != null) _buildThumbnail(context),
             Expanded(
               child: ListView(
                 children: _buildDetailitems(context),
@@ -38,13 +39,24 @@ class DetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildThumbnail() => Center(
-        child: Image.network(
-          company.image,
-          width: 150.0,
-          height: 150.0,
+  Widget _buildThumbnail(context) {
+    var image = Image.network(
+      company.image,
+      width: 150.0,
+      height: 150.0,
+    );
+
+    return Hero(
+      tag: company.image,
+      child: GestureDetector(
+        child: Center(
+          child: image,
         ),
-      );
+        onTap: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ImageScreen(image))),
+      ),
+    );
+  }
 
   List<Widget> _buildDetailitems(BuildContext context) => [
         if (company.image != null)

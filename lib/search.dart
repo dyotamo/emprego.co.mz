@@ -29,10 +29,13 @@ class CompanySearch extends SearchDelegate<CompanyModel> {
             if (snapshot.data.isEmpty)
               return Center(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Icon(Icons.clear, size: 25.0),
-                    Text('Sem resultados'),
+                    Text(
+                      'Sem resultados',
+                      textAlign: TextAlign.center,
+                    ),
                   ],
                 ),
               );
