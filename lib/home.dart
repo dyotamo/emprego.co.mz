@@ -15,14 +15,12 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 10.0),
-        child: PagewiseListView<CompanyModel>(
+        child: PagewiseGridView.count(
+          crossAxisCount: 2,
           pageSize: 20,
           pageFuture: (page) => fetchCompanies(page),
           itemBuilder: (_, company, __) => _buildTitle(context, company),
-          loadingBuilder: (context) => SpinKitRipple(
-            size: 35.0,
-            color: Theme.of(context).primaryColor,
-          ),
+          loadingBuilder: (context) => _buildLoading(context),
         ),
       ));
 
@@ -55,29 +53,71 @@ class HomeScreen extends StatelessWidget {
         ),
       );
 
-  static Widget buildLeading(CompanyModel company) => (company.image == null)
-      ? Container(
-          width: 50.0,
-          child: CircleAvatar(
-            child: Text(company.name[0]),
-          ),
-        )
-      : Image.network(
-          company.image,
-          width: 50.0,
-        );
+  static Widget buildThumnail(context, CompanyModel company) => Padding(
+        padding: EdgeInsets.all(8.0),
+        child: (company.image == null)
+            ? _buildCircleAvatar(company)
+            : _buildImageThumb(company, context),
+      );
 
-  Widget _buildTitle(context, CompanyModel company) => Column(
-        children: <Widget>[
-          ListTile(
-            key: Key(company.id),
-            leading: buildLeading(company),
-            title: Text(company.name),
-            subtitle: Text(company.addressOrCity),
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => DetailScreen(company))),
+  static Widget _buildImageThumb(CompanyModel company, context) =>
+      Image.network(
+        company.image,
+        width: 60.0,
+        loadingBuilder: (_, child, event) {
+          if (event == null) return child;
+          return SpinKitRipple(
+            size: 25.0,
+            color: Theme.of(context).primaryColor,
+          );
+        },
+      );
+
+  static Widget _buildCircleAvatar(CompanyModel company) => Container(
+        width: 60.0,
+        height: 60.0,
+        child: CircleAvatar(
+          child: Text(
+            company.name[0].toUpperCase(),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 25.0,
+            ),
           ),
-          Divider()
-        ],
+        ),
+      );
+
+  Widget _buildTitle(context, CompanyModel company) => GestureDetector(
+        key: Key(company.id),
+        child: Card(
+          elevation: 5.0,
+          child: Column(
+            children: <Widget>[
+              buildThumnail(context, company),
+              SizedBox(height: 5.0),
+              _buildCompanyName(company),
+              SizedBox(height: 5.0),
+              _buildCompanyAddress(company)
+            ],
+          ),
+        ),
+        onTap: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => DetailScreen(company))),
+      );
+
+  Widget _buildCompanyAddress(CompanyModel company) =>
+      Text((company.city == null) ? '' : company.city,
+          textAlign: TextAlign.center, overflow: TextOverflow.ellipsis);
+
+  Widget _buildCompanyName(CompanyModel company) => Text(company.name,
+      textAlign: TextAlign.center,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 17.0,
+      ));
+
+  Widget _buildLoading(BuildContext context) => SpinKitRipple(
+        color: Theme.of(context).primaryColor,
       );
 }

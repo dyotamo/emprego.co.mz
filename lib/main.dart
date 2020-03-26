@@ -6,7 +6,9 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
-        theme: ThemeData(primarySwatch: Colors.purple),
+        theme: ThemeData(
+          primarySwatch: Colors.purple,
+        ),
         home: HomeScreen(),
       );
 }

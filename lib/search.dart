@@ -47,7 +47,7 @@ class CompanySearch extends SearchDelegate<CompanyModel> {
                   var company = snapshot.data[index];
                   return ListTile(
                     key: Key(company.id),
-                    leading: HomeScreen.buildLeading(company),
+                    leading: HomeScreen.buildThumnail(context, company),
                     title: Text(company.name),
                     subtitle: Text(company.addressOrCity),
                     onTap: () => close(context, company),
