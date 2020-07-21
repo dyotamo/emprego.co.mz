@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:prov/client.dart';
-import 'package:prov/home.dart';
-import 'package:prov/model.dart';
+import 'package:empresas.co.mz/api/client.dart';
+import 'package:empresas.co.mz/widgets/home.dart';
+import 'package:empresas.co.mz/model/model.dart';
 
 class CompanySearch extends SearchDelegate<CompanyModel> {
   CompanySearch() : super(searchFieldLabel: 'Pesquise aqui...');
@@ -32,7 +32,10 @@ class CompanySearch extends SearchDelegate<CompanyModel> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Icon(Icons.clear, size: 25.0),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Icon(Icons.clear, size: 75.0),
+                    ),
                     Text(
                       'Sem resultados',
                       textAlign: TextAlign.center,

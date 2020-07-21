@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:prov/home.dart';
-import 'package:prov/image.dart';
-import 'package:prov/model.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
+import 'package:empresas.co.mz/widgets/home.dart';
+import 'package:empresas.co.mz/widgets/image.dart';
+import 'package:empresas.co.mz/model/model.dart';
 
 class DetailScreen extends StatelessWidget {
   final CompanyModel company;

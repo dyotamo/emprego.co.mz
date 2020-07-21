@@ -1,5 +1,5 @@
-name: prov
-description: find companies online
+name: empresas.co.mz
+description: Find companies online
 
 version: 1.0.0+1
 
@@ -14,7 +14,6 @@ dependencies:
   http:
   url_launcher:
   flutter_spinkit: "^4.1.2"
-  google_fonts: ^0.3.10
 
 dev_dependencies:
   flutter_test:

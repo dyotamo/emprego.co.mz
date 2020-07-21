@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:prov/model.dart';
+import 'package:empresas.co.mz/model/model.dart';
 
 void main() {
   test('Must return phone', () {

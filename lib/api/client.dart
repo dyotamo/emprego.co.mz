@@ -1,8 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:prov/model.dart';
+import 'package:empresas.co.mz/model/model.dart';
+
+final _host = 'ymarket.herokuapp.com';
 
 Future<List<CompanyModel>> fetchCompanies(page) async {
   var uri = Uri.https('ymarket.herokuapp.com', '/company/',
@@ -13,8 +14,7 @@ Future<List<CompanyModel>> fetchCompanies(page) async {
 }
 
 Future<List<CompanyModel>> searchCompanies(query) async {
-  var uri =
-      Uri.https('ymarket.herokuapp.com', '/company/', {'name': '%$query%'});
+  var uri = Uri.https(_host, '/company/', {'name': '%$query%'});
 
   var response = await http.get(uri);
   return compute(_parseJson, response.body);

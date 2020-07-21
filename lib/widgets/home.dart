@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:prov/client.dart';
-import 'package:prov/detail.dart';
-import 'package:prov/model.dart';
-import 'package:prov/search.dart';
+import 'package:empresas.co.mz/api/client.dart';
+import 'package:empresas.co.mz/widgets/detail.dart';
+import 'package:empresas.co.mz/model/model.dart';
+import 'package:empresas.co.mz/delegate/search.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -113,15 +113,19 @@ class HomeScreen extends StatelessWidget {
       Text((company.city == null) ? '' : company.city,
           textAlign: TextAlign.center, overflow: TextOverflow.ellipsis);
 
-  Widget _buildCompanyName(CompanyModel company) => Text(company.name,
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 15.0,
-      ));
+  Widget _buildCompanyName(CompanyModel company) => Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Text(company.name,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15.0,
+            )),
+      );
 
-  Widget _buildLoading(BuildContext context) => SpinKitRipple(
+  Widget _buildLoading(BuildContext context) => SpinKitThreeBounce(
         color: Theme.of(context).primaryColor,
+        size: 25.0,
       );
 }
